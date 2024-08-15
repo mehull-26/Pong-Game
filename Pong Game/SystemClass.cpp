@@ -16,10 +16,10 @@ bool SystemClass::Initialize()
 	int screenHeight;
 	bool result = 1;
 
-	screenWidth = 800;
-	screenHeight = 600;
+	screenWidth = 0;
+	screenHeight = 0;
 
-	InitializeWindows(screenHeight, screenHeight);
+	InitializeWindows(screenHeight, screenWidth);
 
 	m_Game = new GameClass;
 	m_Game->Initialize(screenWidth, screenHeight, m_hwnd);
@@ -101,8 +101,8 @@ void SystemClass::InitializeWindows(int &screenHeight, int &screenWidth)
 	}
 	else
 	{
-		screenWidth = 800;
-		screenHeight = 600;
+		screenWidth = 1920;
+		screenHeight = 1080;
 
 		// Place the window in the middle of the screen.
 		posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;

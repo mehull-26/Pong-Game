@@ -24,8 +24,14 @@ public:
 	void BeginScene(float, float, float, float);
 	void EndScene();
 
+	void GetProjectionMatrix(XMMATRIX&);
+	void GetWorldMatrix(XMMATRIX&);
+	void GetOrthoMatrix(XMMATRIX&);
 
+	ID3D11Device* GetDevice();
+	ID3D11DeviceContext* GetDeviceContext();
 
+	void ResetViewport();
 
 
 private:

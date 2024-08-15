@@ -96,6 +96,9 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, bool vsync, HW
 		return false;
 	}
 
+	//numerator = 0;
+	//denominator = 1;
+
 	// Now go through all the display modes and find the one that matches the screen width and height.
 	// When a match is found store the numerator and denominator of the refresh rate for that monitor.
 	for (i = 0; i < numModes; i++)
@@ -470,6 +473,43 @@ void GraphicsClass::EndScene()
 		// Present as fast as possible.
 		m_swapChain->Present(0, 0);
 	}
+
+	return;
+}
+
+ID3D11DeviceContext* GraphicsClass::GetDeviceContext()
+{
+	return m_deviceContext;
+}
+
+ID3D11Device* GraphicsClass::GetDevice()
+{
+	return m_device;
+}
+
+void GraphicsClass::GetProjectionMatrix(XMMATRIX& projectionMatrix)
+{
+	projectionMatrix = m_projectionMatrix;
+	return;
+}
+
+void GraphicsClass::GetWorldMatrix(XMMATRIX& worldMatrix)
+{
+	worldMatrix = m_worldMatrix;
+	return;
+}
+
+void GraphicsClass::GetOrthoMatrix(XMMATRIX& orthoMatrix)
+{
+	orthoMatrix = m_orthoMatrix;
+	return;
+}
+
+
+void GraphicsClass::ResetViewport()
+{
+	// Set the viewport.
+	m_deviceContext->RSSetViewports(1, &m_viewport);
 
 	return;
 }
