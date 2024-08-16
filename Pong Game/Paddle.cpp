@@ -1,7 +1,8 @@
 #include "Paddle.h"
 
-Paddle::Paddle()
+Paddle::Paddle(int ID)
 {
+	m_ID = ID;
 }                  
 
 Paddle::~Paddle()
@@ -43,6 +44,34 @@ bool Paddle::Render(ID3D11DeviceContext* deviceContext, ShaderManagerClass* shad
 	return true;
 }
 
+void Paddle::Update(InputClass* m_Input)
+{
+	switch (m_ID)
+	{
+	case 1:
+		if (m_Input->IsKeyDown('A'))
+		{
+			m_position.x -= 0.1f;
+		}
+		if (m_Input->IsKeyDown('D'))
+		{
+			m_position.x += 0.1f;
+		}
+		break;
+
+	case 2:
+		if (m_Input->IsKeyDown(37))
+		{
+			m_position.x -= 0.1f;
+		}
+		if (m_Input->IsKeyDown(39))
+		{
+			m_position.x += 0.1f;
+		}
+		break;
+	}
+	UpdateWorldMatrix();
+}
 void Paddle::Shutdown()
 {
 	ShutdownBuffers();

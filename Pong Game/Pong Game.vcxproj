@@ -127,7 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="GameClass.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -144,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Colorshader.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="gameClass.h" />

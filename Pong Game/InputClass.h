@@ -8,7 +8,7 @@ public:
 	InputClass(const InputClass&);
 	~InputClass();
 
-	void Initialize();
+	bool Initialize();
 
 	void KeyDown(unsigned int);
 	void KeyUp(unsigned int);

@@ -73,22 +73,24 @@ void GameClass::Shutdown()
 }
 
 
-bool GameClass::Frame()
+bool GameClass::Frame(InputClass* m_Input)
 {
 	bool result;
 
 	// Render the graphics scene.
-	result = Render();
+	result = Render(m_Input);
 	if (!result)
 	{
 		return false;
 	}
+
+	m_Scene1->Update(0.01f, m_Input);
 	return true;
 
 }
 
 
-bool GameClass::Render()
+bool GameClass::Render(InputClass* m_Input)
 {
 	XMMATRIX projectionMatrix;
 	bool result;

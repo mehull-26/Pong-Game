@@ -1,6 +1,7 @@
 #ifndef _GAMECLASS_H_
 #define _GAMECLASS_H_
 
+#include "InputClass.h"
 #include "GraphicsClass.h"
 #include "ShaderManager.h"
 #include "Scene1.h"
@@ -21,10 +22,10 @@ public:
     ~GameClass();
     bool Initialize(int,int,HWND hwnd);
     void Shutdown();
-    bool Frame();
+    bool Frame(InputClass*);
 
 private:
-    bool Render();
+    bool Render(InputClass*);
     GraphicsClass* m_Graphics;
 	ShaderManagerClass* m_ShaderManager;
 	Scene1* m_Scene1;

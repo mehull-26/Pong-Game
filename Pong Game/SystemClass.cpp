@@ -20,6 +20,12 @@ bool SystemClass::Initialize()
 	screenHeight = 0;
 
 	InitializeWindows(screenHeight, screenWidth);
+	m_Input = new InputClass;
+	result = m_Input->Initialize();
+	if (!result)
+	{
+		return false;
+	}
 
 	m_Game = new GameClass;
 	result = m_Game->Initialize(screenWidth, screenHeight, m_hwnd);
@@ -164,7 +170,7 @@ bool SystemClass::Frame()
 	bool result;
 
 	// Do the frame processing for the application class object.
-	result = m_Game->Frame();
+	result = m_Game->Frame(m_Input);
 	if (!result)
 	{
 		return false;
@@ -184,6 +190,16 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
 		{
 			PostQuitMessage(0);
 		}
+		else
+		{
+			m_Input->KeyDown((unsigned int)wparam);
+		}
+		return 0;
+	}
+	case WM_KEYUP:
+	{
+		m_Input->KeyUp((unsigned int)wparam);
+		return 0;
 	}
 	default:
 		return DefWindowProc(hwnd,umsg,wparam,lparam);

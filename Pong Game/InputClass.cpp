@@ -24,13 +24,14 @@ InputClass::~InputClass()
     // Destructor implementation (if needed)
 }
 
-void InputClass::Initialize()
+bool InputClass::Initialize()
 {
     // Initialize all keys to being released and not pressed.
     for(int i = 0; i < 256; i++)
     {
         m_keys[i] = false;
     }
+    return true;
 }
 
 void InputClass::KeyDown(unsigned int key)
