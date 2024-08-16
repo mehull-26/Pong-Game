@@ -27,8 +27,8 @@ public:
     GameObject();
     virtual ~GameObject();
 
-    bool Initialize(ID3D11Device*, ID3D11DeviceContext*, char*, char*, char*, char*);
-    void Shutdown();
+    virtual bool Initialize(ID3D11Device*) = 0;
+    virtual void Shutdown() = 0;
 
     // Setters
     void SetPosition(float x, float y, float z);

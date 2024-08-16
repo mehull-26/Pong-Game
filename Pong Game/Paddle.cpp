@@ -8,7 +8,7 @@ Paddle::~Paddle()
 {
 }
 
-bool Paddle::Initialize(ID3D11Device* device)
+bool Paddle::Initialize(ID3D11Device* device) 
 {
     bool result;
 	char modelFilename[128];

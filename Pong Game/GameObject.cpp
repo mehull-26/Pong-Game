@@ -17,41 +17,6 @@ GameObject::~GameObject()
 {
 }
 
-bool GameObject::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* modelFilename, char* textureFilename, char* normalMapFilename, char* specularMapFilename)
-{
-    bool result;
-
-	result = LoadModel(modelFilename);
-	if (!result)
-	{
-		return false;
-	}
-
-    result = InitializeBuffers(device);
-	if (!result)
-	{
-		return false;
-	}
-
-    return true;
-}
-
-void GameObject::Shutdown()
-{
-    if (m_vertexBuffer)
-    {
-        m_vertexBuffer->Release();
-        m_vertexBuffer = nullptr;
-    }
-
-    if (m_indexBuffer)
-    {
-        m_indexBuffer->Release();
-        m_indexBuffer = nullptr;
-    }
-    
-    ShutdownBuffers();
-}
 
 bool GameObject::LoadModel(const char* filename)
 {
