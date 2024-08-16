@@ -369,6 +369,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, bool vsync, HW
 		return false;
 	}
 
+	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+
 	return true;
 }
 

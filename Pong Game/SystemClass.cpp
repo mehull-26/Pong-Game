@@ -14,7 +14,7 @@ bool SystemClass::Initialize()
 {
 	int screenWidth;
 	int screenHeight;
-	bool result = 1;
+	bool result;
 
 	screenWidth = 0;
 	screenHeight = 0;
@@ -22,7 +22,11 @@ bool SystemClass::Initialize()
 	InitializeWindows(screenHeight, screenWidth);
 
 	m_Game = new GameClass;
-	m_Game->Initialize(screenWidth, screenHeight, m_hwnd);
+	result = m_Game->Initialize(screenWidth, screenHeight, m_hwnd);
+	if (!result)
+	{
+		return false;
+	}
 
 	return result;
 }

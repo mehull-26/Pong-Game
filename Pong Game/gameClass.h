@@ -2,6 +2,9 @@
 #define _GAMECLASS_H_
 
 #include "GraphicsClass.h"
+#include "Camera.h"
+#include "Paddle.h"
+#include "ShaderManager.h"
 
 //////////
 //GLOABALS
@@ -24,6 +27,10 @@ public:
 private:
     bool Render();
     GraphicsClass* m_Graphics;
+    CameraClass* m_camera;
+    Paddle* m_paddle1;
+    Paddle* m_paddle2;
+	ShaderManagerClass* m_shaderManager;
 };
 
 #endif // !GAMECLASS_H

@@ -127,16 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="GameClass.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="SystemClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Colorshader.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="gameClass.h" />
@@ -144,6 +149,11 @@
     <ClInclude Include="GraphicsClass.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="Paddle.h" />
+    <ClInclude Include="ShaderManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="color.ps" />
+    <None Include="color.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -103,7 +103,7 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	{
 		return false;
 	}
-
+		
 	// Create the pixel shader from the buffer.
 	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &m_pixelShader);
 	if (FAILED(result))
@@ -211,7 +211,7 @@ bool ColorShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, X
 
 	bufferNumber = 0;
 
-	deviceContext->VSGetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
+	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
 
 	return true;
 }
