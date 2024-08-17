@@ -83,8 +83,7 @@ bool GameClass::Frame(InputClass* m_Input)
 	{
 		return false;
 	}
-
-	m_Scene1->Update(0.01f, m_Input);
+	m_Scene1->Update(0.0015f, m_Input);
 	return true;
 
 }

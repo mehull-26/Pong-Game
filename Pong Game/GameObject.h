@@ -3,6 +3,8 @@
 
 #include <DirectXMath.h>
 #include <d3d11.h>
+
+#include "Collider.h"
 #include "ShaderManager.h"
 
 using namespace DirectX;
@@ -44,6 +46,8 @@ public:
     virtual void Update(float deltaTime);
     virtual bool Render(ID3D11DeviceContext* deviceContext, ShaderManagerClass *shaderManager, XMMATRIX viewMatrix, XMMATRIX projectionMatrix) = 0;
 
+    //Collider
+	Collider& GetCollider();
 protected:
     XMFLOAT3 m_position;
     XMFLOAT3 m_scale;
@@ -60,6 +64,7 @@ protected:
     ID3D11Buffer* m_vertexBuffer;
     ID3D11Buffer* m_indexBuffer;
 	ModelType* m_model;
+	Collider* m_collider;
     int m_indexCount;
     int m_vertexCount;
 };

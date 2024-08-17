@@ -17,55 +17,63 @@ bool Scene1::Initialize(ID3D11Device* device)
 	Scene::Initialize(device);
 
 	m_paddle = new Paddle(1);
-	m_paddle->SetPosition(0, 0, -2);
-	m_paddle->SetScale(2, 0.2, 0.1);
 	result = m_paddle->Initialize(device);
 	if (!result)
 	{
 		return false;
 	}
-
+	m_paddle->GetCollider().SetPosition(0, 0, -65);
+	m_paddle->GetCollider().SetSize(20, 4, 2);
+	m_paddle->SetPosition(0, 0, -65);
+	m_paddle->SetScale(10, 2, 1);
+	
 	m_ball = new Ball();
-	m_ball->SetPosition(0, 0, 8);
-	m_ball->SetScale(0.2, 0.2, 0.2);
 	result = m_ball->Initialize(device);
 	if (!result)
 	{
 		return false;
 	}
+	m_ball->GetCollider().SetPosition(0, 0, -10);
+	m_ball->GetCollider().SetSize(4, 4, 4);
+	m_ball->SetPosition(0, 0, -10);
+	m_ball->SetScale(2, 2, 2);
+
 
 	m_paddle1 = new Paddle(2);
-	m_paddle1->SetPosition(0, 0, 18);
-	m_paddle1->SetScale(2, 0.2, 0.1);
 	result = m_paddle1->Initialize(device);
 	if (!result)
 	{
 		return false;
 	}
-
+	m_paddle1->GetCollider().SetPosition(0, 0, 45);
+	m_paddle1->GetCollider().SetSize(20, 4, 2);
+	m_paddle1->SetPosition(0, 0, 45);
+	m_paddle1->SetScale(10, 2, 1);
 
 	m_bar0 = new Paddle(3);
-	m_bar0->SetPosition(-7, 0, 5);
-	m_bar0->SetScale(0.3, 0.3, 20);
+	m_bar0->SetPosition(-40, 0, 0);
+	m_bar0->SetScale(2, 2, 85);
 	result = m_bar0->Initialize(device);
 	if (!result)
 	{
 		return false;
 	}
-	m_bar1 = new Paddle(3);
-	m_bar1->SetPosition(7, 0, 5);
-	m_bar1->SetScale(0.3, 0.3, 20);
+	m_bar1 = new Paddle(4);
+	m_bar1->SetPosition(40, 0, 0);
+	m_bar1->SetScale(2, 2, 85);
 	result = m_bar1->Initialize(device);
 	if (!result)
 	{
 		return false;
 	}
 
+
 	return true;
 }
 
 void Scene1::Update(float deltaTime, InputClass* m_Input)
 {
+
 	static double accumulator = 0;
 	static double prevTime = GetTime();
 	accumulator += GetTime() - prevTime;
@@ -75,7 +83,14 @@ void Scene1::Update(float deltaTime, InputClass* m_Input)
 		accumulator -= deltaTime;
 		m_paddle->Update(m_Input);
 		m_paddle1->Update(m_Input);
+		m_ball->Update(m_Input);
 		prevTime = GetTime();
+	}
+	static bool collision;
+	collision =  m_ball->GetCollider().CheckCollision(m_paddle->GetCollider());
+	if (collision)
+	{
+		OutputDebugString(L"collided");
 	}
 }
 

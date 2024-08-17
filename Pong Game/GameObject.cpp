@@ -10,6 +10,7 @@ GameObject::GameObject()
     m_vertexBuffer = 0;
 	m_indexBuffer = 0;
 	m_model = 0;
+	m_collider = 0;
     UpdateWorldMatrix();
 }
 
@@ -82,7 +83,7 @@ bool GameObject::InitializeBuffers(ID3D11Device* device)
 	for (int i = 0; i < m_vertexCount; i++)
 	{
 		vertices[i].position = XMFLOAT3(m_model[i].x, m_model[i].y, m_model[i].z);
-		vertices[i].color = XMFLOAT4(1.0f, 1.0f, 1.0f,1.0f);
+		vertices[i].color = XMFLOAT4(m_model[i].nx, m_model[i].ny, m_model[i].nz, 1.0f);
 		indices[i] = i;
 	}
 
@@ -208,4 +209,9 @@ XMFLOAT3 GameObject::GetRotation() const
 void GameObject::Update(float deltaTime)
 {
     // Update logic for the game object
+}
+
+Collider& GameObject::GetCollider()
+{
+	return *m_collider;
 }
