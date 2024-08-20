@@ -10,7 +10,7 @@ Paddle::~Paddle()
 {
 }
 
-bool Paddle::Initialize(ID3D11Device* device) 
+bool Paddle::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 {
     bool result;
 	char modelFilename[128];
@@ -23,7 +23,7 @@ bool Paddle::Initialize(ID3D11Device* device)
 		return false;
 	}
 
-	result = InitializeBuffers(device);
+	result = InitializeBuffers(device, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -48,51 +48,56 @@ bool Paddle::Render(ID3D11DeviceContext* deviceContext, ShaderManagerClass* shad
 
 void Paddle::Update(InputClass* m_Input)
 {
-	XMFLOAT3 static pos = m_collider->GetPosition();
+	XMFLOAT3 static pos;
+	pos = m_collider->GetPosition();
 	switch (m_ID)
 	{
 	case 1:
-		if (m_position.x > -28 && m_position.x < 28)
+		if (m_position.x > -33 && m_position.x < 28)
 		{
 			if (m_Input->IsKeyDown('A'))
 			{
-				m_position.x -= 0.1f;
-				pos.x -= 0.1f;
+				m_position.x -= 0.2f;
+				pos.x -= 0.2f;
 			}
 			if (m_Input->IsKeyDown('D'))
 			{
-				m_position.x += 0.1f;
-				pos.x += 0.1f;
+				m_position.x += 0.2f;
+				pos.x += 0.2f;
 			}
 		}
 		else
 		{
-			m_position.x = m_position.x > 0 ? 27.999 : -27.999;
-			pos.x = m_position.x > 0 ? 27.999 : -27.999;
+			m_position.x = m_position.x > 0 ? 27.999 : -32.999;
+			pos.x = m_position.x > 0 ? 27.999 : -32.999;
 		}
 		break;
 
 	case 2:
-		if (m_position.x > -28 && m_position.x < 28)
+		if (m_position.x > -33 && m_position.x < 28)
 		{
 			if (m_Input->IsKeyDown(37))
 			{
-				m_position.x -= 0.1f;
-				pos.x -= 0.1f;
+				m_position.x -= 0.2f;
+				pos.x -= 0.2f;
 			}
 			if (m_Input->IsKeyDown(39))
 			{
-				m_position.x += 0.1f;
-				pos.x += 0.1f;
+				m_position.x += 0.2f;
+				pos.x += 0.2f;
 			}
 		}
 		else
 		{
-			m_position.x = m_position.x > 0 ? 27.999 : -27.999;
-			pos.x = m_position.x > 0 ? 27.999 : -27.999;
+			m_position.x = m_position.x > 0 ? 27.999 : -32.999;
+			pos.x = m_position.x > 0 ? 27.999 : -32.999;
 		}
 		break;
+	default:
+
+		break;
 	}
+
 	m_collider->SetPosition(pos.x, pos.y, pos.z);
 	UpdateWorldMatrix();
 }

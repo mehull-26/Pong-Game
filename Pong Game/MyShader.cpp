@@ -1,6 +1,6 @@
-#include "Colorshader.h"
+#include "Myshader.h"
 
-ColorShaderClass::ColorShaderClass()
+MyShader::MyShader()
 {
 	m_vertexShader = 0;
 	m_pixelShader = 0;
@@ -8,28 +8,28 @@ ColorShaderClass::ColorShaderClass()
 	m_matrixBuffer = 0;
 }
 
-ColorShaderClass::ColorShaderClass(const ColorShaderClass& other)
+MyShader::MyShader(const MyShader& other)
 {
 }
 
-ColorShaderClass::~ColorShaderClass()
+MyShader::~MyShader()
 {
 }
 
-bool ColorShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
+bool MyShader::Initialize(ID3D11Device* device, HWND hwnd)
 {
 	bool result;
 	wchar_t vsFilename[128];
 	wchar_t psFilename[128];
 	int error;
 
-	error = wcscpy_s(vsFilename, 128, L"light.vs");
+	error = wcscpy_s(vsFilename, 128, L"MyShader.vs");
 	if (error != 0)
 	{
 		return false;
 	}
 
-	error = wcscpy_s(psFilename, 128, L"light.ps");
+	error = wcscpy_s(psFilename, 128, L"MyShader.ps");
 	if (error != 0)
 	{
 		return false;
@@ -44,7 +44,7 @@ bool ColorShaderClass::Initialize(ID3D11Device* device, HWND hwnd)
 	return true;
 }
 
-bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename)
+bool MyShader::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename)
 {
 	HRESULT result;
 	ID3D10Blob* errorMessage;
@@ -53,6 +53,7 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	unsigned int numElements;
 	D3D11_BUFFER_DESC matrixBufferDesc;
+	D3D11_BUFFER_DESC paddleBufferDesc;
 
 	// Initialize the pointers this function will use to null.
 	errorMessage = 0;
@@ -79,7 +80,7 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	}
 
 	// Compile the pixel shader code.
-	result = D3DCompileFromFile(psFilename, NULL, NULL, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	result = D3DCompileFromFile(psFilename, NULL, NULL, "PixelFragmentShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&pixelShaderBuffer, &errorMessage);
 	if (FAILED(result))
 	{
@@ -103,7 +104,7 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	{
 		return false;
 	}
-		
+
 	// Create the pixel shader from the buffer.
 	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &m_pixelShader);
 	if (FAILED(result))
@@ -154,11 +155,24 @@ bool ColorShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 		return false;
 	}
 
+	paddleBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	paddleBufferDesc.ByteWidth = sizeof(PaddleBufferType);
+	paddleBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	paddleBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	paddleBufferDesc.MiscFlags = 0;
+	paddleBufferDesc.StructureByteStride = 0;
+
+	result = device->CreateBuffer(&paddleBufferDesc, NULL, &m_paddleBuffer);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	return true;
 
 }
 
-void ColorShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename)
+void MyShader::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename)
 {
 	char* compileErrors;
 	unsigned long bufferSize, i;
@@ -184,16 +198,17 @@ void ColorShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 	return;
 }
 
-bool ColorShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix)
+bool MyShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix,float paddle1X, float paddle2X, XMFLOAT3 ballXYZ)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	MatrixBufferType* dataPtr;
+	PaddleBufferType* dataPtr1;
 	unsigned int bufferNumber;
 
 	worldMatrix = XMMatrixTranspose(worldMatrix);
 	viewMatrix = XMMatrixTranspose(viewMatrix);
-	projectionMatrix = XMMatrixTranspose(projectionMatrix);	
+	projectionMatrix = XMMatrixTranspose(projectionMatrix);
 
 	result = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
@@ -213,10 +228,27 @@ bool ColorShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, X
 
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
 
+	result = deviceContext->Map(m_paddleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	dataPtr1 = (PaddleBufferType*)mappedResource.pData;
+
+	dataPtr1->PaddleCenter = XMFLOAT3( paddle1X, 0.0f, -65.0f);
+	dataPtr1->PaddleWidth = 20.0f;
+	dataPtr1->PaddleCenter1 = XMFLOAT3(paddle2X, 0.0f, 45.0f);
+	dataPtr1->PaddleWidth1 = 20.0f;
+	dataPtr1->BallCenter = ballXYZ;
+	dataPtr1->padding = 0.0f;
+
+	deviceContext->Unmap(m_paddleBuffer, 0);
+
+	bufferNumber = 0;
+
+	deviceContext->PSSetConstantBuffers(bufferNumber, 1, &m_paddleBuffer);
+
 	return true;
 }
 
-void ColorShaderClass::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
+void MyShader::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
 {
 	deviceContext->IASetInputLayout(m_layout);
 
@@ -228,11 +260,11 @@ void ColorShaderClass::RenderShader(ID3D11DeviceContext* deviceContext, int inde
 	return;
 }
 
-bool ColorShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix)
+bool MyShader::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix, float paddle1X, float paddle2X, XMFLOAT3 ballXYZ)
 {
 	bool result;
 
-	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
+	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix,paddle1X, paddle2X, ballXYZ);
 	if (!result)
 	{
 		return false;
@@ -243,14 +275,14 @@ bool ColorShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount
 	return true;
 }
 
-void ColorShaderClass::Shutdown()
+void MyShader::Shutdown()
 {
 	ShutdownShader();
 	return;
 }
 
 
-void ColorShaderClass::ShutdownShader()
+void MyShader::ShutdownShader()
 {
 	if (m_matrixBuffer)
 	{

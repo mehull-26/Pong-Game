@@ -11,6 +11,10 @@ GameObject::GameObject()
 	m_indexBuffer = 0;
 	m_model = 0;
 	m_collider = 0;
+	m_LTC1 = 0;
+	m_LTC2 = 0;
+	m_LTC1SRV = 0;
+	m_LTC2SRV = 0;
     UpdateWorldMatrix();
 }
 
@@ -74,7 +78,7 @@ bool GameObject::LoadModel(const char* filename)
 	return true;
 }
 
-bool GameObject::InitializeBuffers(ID3D11Device* device)
+bool GameObject::InitializeBuffers(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 {
 	VertexType* vertices = new VertexType[m_vertexCount];
 	D3D11_BUFFER_DESC vertexBufferDesc;
@@ -83,7 +87,7 @@ bool GameObject::InitializeBuffers(ID3D11Device* device)
 	for (int i = 0; i < m_vertexCount; i++)
 	{
 		vertices[i].position = XMFLOAT3(m_model[i].x, m_model[i].y, m_model[i].z);
-		vertices[i].color = XMFLOAT4(m_model[i].nx, m_model[i].ny, m_model[i].nz, 1.0f);
+		vertices[i].color = XMFLOAT3(0,0,1);
 		indices[i] = i;
 	}
 
@@ -134,6 +138,12 @@ bool GameObject::InitializeBuffers(ID3D11Device* device)
 	delete[] indices;
 	indices = 0;
 
+	result = InitializeLTCs(device, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -160,6 +170,30 @@ void GameObject::ShutdownBuffers()
 		m_vertexBuffer->Release();
 		m_vertexBuffer = nullptr;
 	}
+
+	if (m_LTC1)
+	{
+		m_LTC1->Release();
+		m_LTC1 = 0;
+	}
+
+	if (m_LTC2)
+	{
+		m_LTC2->Release();
+		m_LTC2 = 0;
+	}
+
+	if (m_LTC1SRV)
+	{
+		m_LTC1SRV->Release();
+		m_LTC1SRV = 0;
+	}
+
+	if (m_LTC2SRV)
+	{
+		m_LTC2SRV->Release();
+		m_LTC2SRV = 0;
+	}
 }
 
 void GameObject::UpdateWorldMatrix()
@@ -184,7 +218,7 @@ void GameObject::SetScale(float x, float y, float z)
     m_scale = XMFLOAT3(x, y, z);
     UpdateWorldMatrix();
 }
-\
+
 void GameObject::SetRotation(float x, float y, float z)
 {
     m_rotation = XMFLOAT3(x, y, z);
@@ -214,4 +248,50 @@ void GameObject::Update(float deltaTime)
 Collider& GameObject::GetCollider()
 {
 	return *m_collider;
+}
+
+bool GameObject::InitializeLTCs(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
+{
+	/*DirectX::ScratchImage image;
+	HRESULT hr = DirectX::LoadFromDDSFile(L"data/ltc_1.dds", DirectX::DDS_FLAGS_NONE, nullptr, image);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	DirectX::ScratchImage image1;
+	hr = DirectX::LoadFromDDSFile(L"data/ltc_2.dds", DirectX::DDS_FLAGS_NONE, nullptr, image1);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+
+	hr = DirectX::CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), &m_LTC1);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	hr = DirectX::CreateTexture(device, image1.GetImages(), image1.GetImageCount(), image1.GetMetadata(), &m_LTC2);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	hr = device->CreateShaderResourceView(m_LTC1, nullptr, &m_LTC1SRV);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	hr = device->CreateShaderResourceView(m_LTC2, nullptr, &m_LTC2SRV);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	image.Release();
+	image1.Release();*/
+	return true;
 }

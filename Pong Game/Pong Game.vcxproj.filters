@@ -63,6 +63,15 @@
     <ClCompile Include="Ball.cpp">
       <Filter>Execution Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Execution Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LTCshader.cpp">
+      <Filter>Execution Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyShader.cpp">
+      <Filter>Execution Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameClass.h">
@@ -104,13 +113,33 @@
     <ClInclude Include="Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LTC.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="LTCshader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Myshader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="color.vs">
+    <None Include="light.vs">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="color.ps">
+    <None Include="light.ps">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="LTC.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="LTC.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="MyShader.ps" />
+    <None Include="MyShader.vs" />
   </ItemGroup>
 </Project>

@@ -9,15 +9,15 @@ Scene::~Scene()
 {
 }
 
-bool Scene::Initialize(ID3D11Device* device)
+bool Scene::Initialize(ID3D11Device* device, ID3D11DeviceContext* )
 {
     bool result;
 
 	m_camera = new CameraClass();
-	m_camera->SetPosition(0.0f,150.0f, -65.0f);
-	//m_camera->SetPosition(45.0f,75.0f, -90.0f);
-	m_camera->SetRotation(90.0f, 0.0f, 0.0f);
-	//m_camera->SetRotation(47.0f, -30.0f, 0.0f);
+	//m_camera->SetPosition(0.0f,150.0f, -10.0f);
+	m_camera->SetPosition(45.0f,78.0f, -110.0f);
+	//m_camera->SetRotation(90.0f, 0.0f, 0.0f);
+	m_camera->SetRotation(43.0f, -30.0f, 0.0f);
 
 	m_camera->Render();
 

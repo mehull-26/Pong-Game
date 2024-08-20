@@ -30,7 +30,7 @@ bool GameClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	m_Scene1 = new Scene1;
-	result = m_Scene1->Initialize(m_Graphics->GetDevice());
+	result = m_Scene1->Initialize(m_Graphics->GetDevice(), m_Graphics->GetDeviceContext());
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the scene1 object.", L"Error", MB_OK);
