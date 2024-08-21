@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include <chrono>
+
 Scene::Scene()
 {
 	m_camera = 0;
@@ -11,8 +11,6 @@ Scene::~Scene()
 
 bool Scene::Initialize(ID3D11Device* device, ID3D11DeviceContext* )
 {
-    bool result;
-
 	m_camera = new CameraClass();
 	//m_camera->SetPosition(0.0f,150.0f, -10.0f);
 	m_camera->SetPosition(45.0f,78.0f, -110.0f);
@@ -23,7 +21,6 @@ bool Scene::Initialize(ID3D11Device* device, ID3D11DeviceContext* )
 
 	m_camera->GetViewMatrix(m_viewMatrix);
 	
-
     return true;
 }
 
@@ -34,7 +31,6 @@ void Scene::Shutdown()
 		delete m_camera;
 		m_camera = 0;
 	}
-
 }
 
 double Scene::GetTime() 

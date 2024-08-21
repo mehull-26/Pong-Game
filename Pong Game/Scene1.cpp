@@ -5,6 +5,9 @@ Scene1::Scene1()
 	m_paddle = 0;
 	m_paddle1 = 0;
 	m_ground = 0;
+	m_ball = 0;
+	m_bar0 = 0;
+	m_bar1 = 0;
 }
 
 Scene1::~Scene1()
@@ -35,7 +38,7 @@ bool Scene1::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext
 	m_paddle->GetCollider().SetPosition(0, 0, -65);
 	m_paddle->GetCollider().SetSize(20, 4, 2);
 	m_paddle->SetPosition(0, 0, -65);
-	m_paddle->SetScale(10, 2, 1);
+	m_paddle->SetScale(10, 3, 1);
 	
 	m_ball = new Ball();
 	result = m_ball->Initialize(device, deviceContext);
@@ -58,7 +61,7 @@ bool Scene1::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext
 	m_paddle1->GetCollider().SetPosition(0, 0, 45);
 	m_paddle1->GetCollider().SetSize(20, 4, 2);
 	m_paddle1->SetPosition(0, 0, 45);
-	m_paddle1->SetScale(10, 2, 1);
+	m_paddle1->SetScale(10, 3, 1);
 
 	m_bar0 = new Paddle(3);
 	result = m_bar0->Initialize(device,deviceContext);
@@ -88,29 +91,36 @@ bool Scene1::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext
 void Scene1::Update(float deltaTime, InputClass* m_Input)
 {
 	static int collision = 0;
-	
+	static int count = 0;
 	static double accumulator = 0;
 	static double prevTime = GetTime();
-	accumulator += GetTime() - prevTime;
 
-	while (accumulator >= deltaTime)
+	if ( m_Input->IsKeyPressed(32))
 	{
-		accumulator -= deltaTime;
-		collision = int(m_ball->GetCollider().CheckCollision(m_paddle->GetCollider())) +  int(m_ball->GetCollider().CheckCollision(m_paddle1->GetCollider())) + 2*int(m_ball->GetCollider().CheckCollision(m_bar0->GetCollider())) + 2 * int(m_ball->GetCollider().CheckCollision(m_bar1->GetCollider()));
-		m_paddle->Update(m_Input);
-		m_paddle1->Update(m_Input);
-		m_ball->Update(m_Input,collision);
-		m_ground->Update(m_Input);
+		count++;
+		OutputDebugString(L"123 ");
+	}
+	if (count % 2 == 0)
+	{
+		accumulator += GetTime() - prevTime;
+	}
+	else
+	{
+		accumulator = 0;
+	}
+
+	while (accumulator >= deltaTime )
+	{
+			accumulator -= deltaTime;
+			collision = int(m_ball->GetCollider().CheckCollision(m_paddle->GetCollider())) + int(m_ball->GetCollider().CheckCollision(m_paddle1->GetCollider())) + 2 * int(m_ball->GetCollider().CheckCollision(m_bar0->GetCollider())) + 2 * int(m_ball->GetCollider().CheckCollision(m_bar1->GetCollider()));
+			m_paddle->Update(m_Input);
+			m_paddle1->Update(m_Input);
+			m_ball->Update(m_Input, collision);
+			m_ground->Update(m_Input);
+
 	}
 	prevTime = GetTime();
-	//if (m_ball->GetPosition().z < -67)
-	//{
-	//	P1Lose();
-	//}
-	//else if (m_ball->GetPosition().z > 47)
-	//{
-	//	P2Lose();
-	//}
+
 
 }
 
@@ -176,18 +186,4 @@ void Scene1::Shutdown()
 	}
 
 	Scene::Shutdown();
-}
-
-void Scene1::P1Lose()
-{
-	m_ball->SetPosition(0, 0, -10);
-	m_ball->GetCollider().SetPosition(0, 0, -10);
-	m_ball->SetVelocity(0, 0, 0);
-}
-
-void Scene1::P2Lose()
-{
-	m_ball->SetPosition(0, 0, -10);
-	m_ball->GetCollider().SetPosition(0, 0, -10);
-	m_ball->SetVelocity(0, 0, 0);
 }

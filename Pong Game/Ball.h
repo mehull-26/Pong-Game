@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "InputClass.h"
+#include "Scene1.h"
 
 class Ball : public GameObject
 {
@@ -19,4 +20,6 @@ public:
 private:
 	XMFLOAT3 m_speed;
     XMFLOAT3 m_direction;
+	void P1Lose();
+	void P2Lose();
 };

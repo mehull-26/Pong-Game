@@ -9,9 +9,7 @@ double GetTime()
 
 Ball::Ball()
 {
-	m_collider = new Collider();
-	m_speed = { 1.0f, 0.0f, 2.0f };
-	m_direction = { 1.0f, 0.0f, 1.0f };
+
 }
 
 Ball::~Ball()
@@ -23,6 +21,9 @@ bool Ball::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 	bool result;
 	char modelFilename[128];
 
+	m_collider = new Collider();
+	m_speed = { 1.0f, 0.0f, 1.0f };
+	m_direction = { 1.0f, 0.0f, 1.0f };
 
 	strcpy_s(modelFilename, "data/Ball.txt");
 	result = LoadModel(modelFilename);
@@ -62,26 +63,16 @@ void Ball::Update(InputClass* m_Input, int Collision)
 	static double accumulator = 0;
 	static double prevTime = GetTime();
 	accumulator += GetTime() - prevTime;
-		//while (accumulator >= 0.2)
-		//{
-		//	accumulator -= 0.2;
 
-		//	if (m_Input->IsKeyDown('R'))
-		//	{
-		//		float veloX = (rand() % 2 == 0) ? 1 : -1;
-		//		m_position = { 0,0,-10 };
-		//		//m_collider->SetPosition(0, 0, -10);
-		//		m_velocity = { veloX,0,2 };
-		//	}
-		//	else if (m_Input->IsKeyDown(32))
-		//	{
-		//		static XMFLOAT3 CurVel;
-		//		if (m_velocity.z != 0) { CurVel = m_velocity; }
-		//		count++;
-		//		count % 2 == 0 ? m_velocity = CurVel : m_velocity = { 0,0,0 };
-		//	}
-		//	prevTime = GetTime();
-		//}
+	//if (m_position.z < -67)
+	//{
+	//	P1Lose();
+	//}
+	//else if (m_position.z > 47)
+	//{
+	//	P2Lose();
+	//}
+
 	static float startTime = GetTime();
 	while (accumulator >= 5 && m_speed.z < 5)
 	{
@@ -124,3 +115,17 @@ void Ball::SetVelocity(float x, float y, float z)
 {
 	m_speed = { x, y, z };
 }
+
+//void Ball::P1Lose()
+//{
+//	m_position = { 0.0f, 0.0f, -10.0f };
+//	m_collider->SetPosition(0, 0, -10);
+//	m_speed = { 0.0f, 0.0f, 0.0f };
+//}
+//
+//void Ball::P2Lose()
+//{
+//	m_position = { 0.0f, 0.0f, -10.0f };
+//	m_collider->SetPosition(0, 0, -10);
+//	m_speed = { 0.0f, 0.0f, 0.0f };
+//}

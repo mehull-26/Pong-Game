@@ -8,6 +8,11 @@ InputClass::InputClass()
     {
         m_keys[i] = false;
     }
+
+	for (int i = 0; i < 256; i++)
+	{
+		m_PrevKeys[i] = false;
+	}
 }
 
 InputClass::InputClass(const InputClass& other)
@@ -16,6 +21,12 @@ InputClass::InputClass(const InputClass& other)
     for(int i = 0; i < 256; i++)
     {
         m_keys[i] = other.m_keys[i];
+    }
+
+    for (int i = 0; i < 256; i++)
+    {
+        m_PrevKeys[i] = other.m_PrevKeys[i];
+
     }
 }
 
@@ -27,11 +38,12 @@ InputClass::~InputClass()
 bool InputClass::Initialize()
 {
     // Initialize all keys to being released and not pressed.
-    for(int i = 0; i < 256; i++)
+    for (int i = 0; i < 256; i++)
     {
         m_keys[i] = false;
+		m_PrevKeys[i] = false;
     }
-    return true;
+	return true;
 }
 
 void InputClass::KeyDown(unsigned int key)
@@ -61,3 +73,18 @@ bool InputClass::IsKeyDown(unsigned int key)
     }
     return false;
 }
+
+bool InputClass::IsKeyPressed(unsigned int key)
+{
+    if (m_keys[key] && !m_PrevKeys[key])
+    {
+        m_PrevKeys[key] = true;
+        return true;
+    }
+    else if (!m_keys[key])
+    {
+        m_PrevKeys[key] = false;
+    }
+    return false;
+}
+

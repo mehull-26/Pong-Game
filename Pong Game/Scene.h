@@ -1,6 +1,8 @@
-#pragma once
+#ifndef _SCENE_H_
+#define _SCENE_H_
 
 #include <vector>
+#include <chrono>
 
 #include "InputClass.h"
 #include "Camera.h"
@@ -21,8 +23,11 @@ public:
     virtual void Render(ID3D11DeviceContext* deviceContext, ShaderManagerClass* shader, XMMATRIX projectionMatrix) = 0;
 	virtual void Shutdown();
 	double GetTime();
+
 protected:
 	CameraClass* m_camera;
 	XMMATRIX m_viewMatrix;
 
 };
+
+#endif // !_SCENE_H_

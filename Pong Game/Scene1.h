@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 
+
 class Scene1 : public Scene
 {
 public:
@@ -20,8 +21,6 @@ private:
 	Paddle* m_bar1;
 
 	Ground* m_ground;
-	void P1Lose();
-	void P2Lose();
 
 };
 
