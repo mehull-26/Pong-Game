@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "InputClass.h"
-#include "Scene1.h"
+
 
 class Ball : public GameObject
 {
