@@ -1,0 +1,81 @@
+struct PixelInputType
+{
+    float4 position : SV_POSITION;
+    float3 posW : POSITION1;
+    float4 color : COLOR;
+};
+
+cbuffer PaddleBuffer
+{
+    float3 PaddleCenter;
+    float PaddleWidth;
+    float3 PaddleCenter1;
+    float PaddleWidth1;
+    float3 BallCenter;
+    float padding;
+};
+
+float4 PixelFragmentShader(PixelInputType pin) : SV_Target
+{
+    float3 vecP = { 1, 0, 0 };
+    float3 vecP1 = { 1, 0, 0 };
+    float3 vecD = pin.posW - float3(-40, 0, pin.posW.z);
+    float3 vecD1 = pin.posW - float3(43.5, 0, pin.posW.z);
+    float3 vecB = pin.posW - float3(BallCenter.xy, BallCenter.z - 1.5);
+    
+    
+    if ( pin.posW.x < PaddleCenter.x + PaddleWidth/2 && pin.posW.x > PaddleCenter.x - PaddleWidth/2)
+    {
+        vecP = pin.posW - float3(pin.posW.x,0,PaddleCenter.z-2);
+    }
+    else if (pin.posW.x < PaddleCenter.x - PaddleWidth/2)
+    {
+        vecP = pin.posW - float3(PaddleCenter.x-PaddleWidth/2,0, PaddleCenter.z-2);
+    }
+    else if (pin.posW.x > PaddleCenter.x + PaddleWidth/2)
+    {
+        vecP = pin.posW - float3(PaddleCenter.x + PaddleWidth/2, 0, PaddleCenter.z-2);
+    }
+    
+    
+    
+    if ( pin.posW.x < PaddleCenter1.x + PaddleWidth1/2 && pin.posW.x > PaddleCenter1.x - PaddleWidth1/2)
+    {
+        vecP1 = pin.posW - float3(pin.posW.x, 0, PaddleCenter1.z - 4);
+    }
+    else if (pin.posW.x < PaddleCenter1.x - PaddleWidth1 / 2)
+    {
+        vecP1 = pin.posW - float3(PaddleCenter1.x - PaddleWidth1 / 2, 0, PaddleCenter1.z - 4);
+    }
+    else if (pin.posW.x > PaddleCenter1.x + PaddleWidth1 / 2)
+    {
+        vecP1 = pin.posW - float3(PaddleCenter1.x + PaddleWidth1 / 2, 0, PaddleCenter1.z - 4);
+    }
+    
+    
+    vecD = normalize(vecD);
+    vecD1 = normalize(vecD1);
+    vecP = normalize(vecP);
+    vecP1 = normalize(vecP1);
+    vecB = normalize(vecB);
+    
+    float3 N = { 0, -1, 0 };
+    float3 color = dot(N, vecD);
+    float3 color1 = dot(N, vecD1);
+    float3 color2 = dot(N, vecP);
+    float3 color3 = dot(N, vecP1);
+    float color4 = dot(N, vecB);
+   
+    color = saturate(pow(color, 0.5));
+    color1 = saturate(pow(color1, 1));
+    color2 = saturate(pow(color2, 1));
+    color3 = saturate(pow(color3, 1));
+    color4 = saturate(pow(color4, 3));
+    float3 color5= saturate(pow(color4,0.5));
+    
+
+    float3 Fcolor = (color + color1 + color2 + color3 + color4 + color5) / 6;
+    float3 Gcolor = float3(0.1, 0.1, 0.1);
+    return float4(Fcolor.x, Fcolor.y / 2, Fcolor.z / 2, 2.0f) + float4(Gcolor, 1);
+
+}
