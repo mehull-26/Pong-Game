@@ -1,6 +1,8 @@
 # 2 Player Pong Game
 A 2 player 3D pong game
 
+#### _RECOMMENDED : To run application on a GPU. CPU rendering might cause sloppy frames at higher resolutions._
+
 Release Build in 'Pong Game\\#Game Release Build' folder. 
 
 
