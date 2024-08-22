@@ -232,7 +232,7 @@ bool MyShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX 
 
 	dataPtr1 = (PaddleBufferType*)mappedResource.pData;
 
-	dataPtr1->PaddleCenter = XMFLOAT3( paddle1X, 0.0f, -65.0f);
+	dataPtr1->PaddleCenter = XMFLOAT3( paddle1X, 0.0f, -70.0f);
 	dataPtr1->PaddleWidth = 20.0f;
 	dataPtr1->PaddleCenter1 = XMFLOAT3(paddle2X, 0.0f, 45.0f);
 	dataPtr1->PaddleWidth1 = 20.0f;

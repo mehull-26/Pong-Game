@@ -35,9 +35,9 @@ bool Scene1::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext
 	{
 		return false;
 	}
-	m_paddle->GetCollider().SetPosition(0, 0, -65);
-	m_paddle->GetCollider().SetSize(20, 4, 2);
-	m_paddle->SetPosition(0, 0, -65);
+	m_paddle->GetCollider().SetPosition(0, 0, -70);
+	m_paddle->GetCollider().SetSize(20.2, 6.5, 2);
+	m_paddle->SetPosition(0, 0, -70);
 	m_paddle->SetScale(10, 3, 1);
 	
 	m_ball = new Ball();
@@ -59,7 +59,7 @@ bool Scene1::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext
 		return false;
 	}
 	m_paddle1->GetCollider().SetPosition(0, 0, 45);
-	m_paddle1->GetCollider().SetSize(20, 4, 2);
+	m_paddle1->GetCollider().SetSize(20.2, 6.5, 2);
 	m_paddle1->SetPosition(0, 0, 45);
 	m_paddle1->SetScale(10, 3, 1);
 
@@ -98,7 +98,7 @@ void Scene1::Update(float deltaTime, InputClass* m_Input)
 	if ( m_Input->IsKeyPressed(32))
 	{
 		count++;
-		OutputDebugString(L"123 ");
+		//OutputDebugString(L"123 ");
 	}
 	if (count % 2 == 0)
 	{

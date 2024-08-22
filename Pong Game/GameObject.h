@@ -1,5 +1,7 @@
 // GameObject.h
-#pragma once
+#ifndef _GAMEOBJECT_H_
+#define _GAMEOBJECT_H_
+
 
 #include <DirectXMath.h>
 #include <d3d11.h>
@@ -76,3 +78,4 @@ protected:
     int m_vertexCount;
 };
 
+#endif // !_GAMEOBJECT_H_
