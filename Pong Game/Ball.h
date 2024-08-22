@@ -2,10 +2,6 @@
 
 #include "GameObject.h"
 #include "InputClass.h"
-<<<<<<< HEAD
-=======
-
->>>>>>> 40ba415732d1938f446a97c226694130a2f9f3a5
 
 class Ball : public GameObject
 {

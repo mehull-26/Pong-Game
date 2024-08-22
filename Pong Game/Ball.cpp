@@ -1,6 +1,5 @@
 #include "Ball.h"
 #include <chrono>
-#include <string>
 
 double GetTime()
 {
