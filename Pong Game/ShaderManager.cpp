@@ -76,10 +76,10 @@ bool ShaderManagerClass::RenderColorShader(ID3D11DeviceContext* deviceContext, i
 }
 
 
-bool ShaderManagerClass::RenderMyShader(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix, float paddle1X, float paddle2X, XMFLOAT3 ballXYZ)
+bool ShaderManagerClass::RenderMyShader(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix, float paddle1X, float paddle2X, XMFLOAT3 ballXYZ, XMFLOAT4 color)
 {
     bool result;
-
+	m_MyShader->m_lightColor = color;
     result = m_MyShader->Render(deviceContext, indexCount, worldMatrix, viewMatrix, projectionMatrix,paddle1X, paddle2X, ballXYZ);
     if (!result)
     {

@@ -1,7 +1,15 @@
 #include "Ground.h"
+#include <chrono>
+
+double GetTimeG()
+{
+	using namespace std::chrono;
+	return duration<double>(steady_clock::now().time_since_epoch()).count();
+}
 
 Ground::Ground()
 {
+	m_color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 Ground::~Ground()
@@ -35,7 +43,7 @@ bool Ground::GroundRender(ID3D11DeviceContext* deviceContext, ShaderManagerClass
 	bool result;
 	RenderBuffers(deviceContext);
 
-	result = shaderManager->RenderMyShader(deviceContext, m_indexCount, m_worldMatrix, viewMatrix, projectionMatrix, paddle1X, paddle2X, ballXYZ);
+	result = shaderManager->RenderMyShader(deviceContext, m_indexCount, m_worldMatrix, viewMatrix, projectionMatrix, paddle1X, paddle2X, ballXYZ,m_color);
 	if (!result)
 	{
 		return false;
@@ -43,11 +51,36 @@ bool Ground::GroundRender(ID3D11DeviceContext* deviceContext, ShaderManagerClass
 	return true;
 }
 
-void Ground::Update(InputClass* m_Input)
+void Ground::Update(InputClass* m_Input, bool PLAY)
 {
+	if (!PLAY)
+	{
+		static float accumulator = 0;
+		static float PrevTime = GetTimeG();
+		accumulator += GetTimeG() - PrevTime;
+		if (accumulator < 0.25)
+		{
+			m_color = XMFLOAT4(1.0f, 0.2f, 0.2f, 1.0f);
+		}
+		else if (accumulator > 0.5)
+		{
+			accumulator = 0;
+		}
+		else if (accumulator > 0.25)
+		{
+			m_color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		PrevTime = GetTimeG();
+	}
+	else m_color = XMFLOAT4(0.0f, 1.0f, 0.8f, 1.0f);
 	UpdateWorldMatrix();
 }
 void Ground::Shutdown()
 {
 	ShutdownBuffers();
+}
+
+void Ground::Blink(bool PLAY)
+{
+
 }

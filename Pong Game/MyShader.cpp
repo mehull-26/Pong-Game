@@ -54,6 +54,7 @@ bool MyShader::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFilena
 	unsigned int numElements;
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	D3D11_BUFFER_DESC paddleBufferDesc;
+	D3D11_BUFFER_DESC LightBufferDesc;
 
 	// Initialize the pointers this function will use to null.
 	errorMessage = 0;
@@ -168,6 +169,19 @@ bool MyShader::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFilena
 		return false;
 	}
 
+	LightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	LightBufferDesc.ByteWidth = sizeof(LightBufferType);
+	LightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	LightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	LightBufferDesc.MiscFlags = 0;
+	LightBufferDesc.StructureByteStride = 0;
+
+	result = device->CreateBuffer(&LightBufferDesc, NULL, &m_lightBuffer);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	return true;
 
 }
@@ -204,6 +218,7 @@ bool MyShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	MatrixBufferType* dataPtr;
 	PaddleBufferType* dataPtr1;
+	LightBufferType* dataPtr2;
 	unsigned int bufferNumber;
 
 	worldMatrix = XMMatrixTranspose(worldMatrix);
@@ -244,6 +259,23 @@ bool MyShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMMATRIX 
 	bufferNumber = 0;
 
 	deviceContext->PSSetConstantBuffers(bufferNumber, 1, &m_paddleBuffer);
+	
+
+	result = deviceContext->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	dataPtr2 = (LightBufferType*)mappedResource.pData;
+
+	dataPtr2->LightColor = m_lightColor;
+
+	deviceContext->Unmap(m_lightBuffer, 0);
+
+	bufferNumber = 1;
+
+	deviceContext->PSSetConstantBuffers(bufferNumber, 1, &m_lightBuffer);
 
 	return true;
 }

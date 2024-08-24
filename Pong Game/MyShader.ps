@@ -15,6 +15,11 @@ cbuffer PaddleBuffer
     float padding;
 };
 
+cbuffer colorBuffer
+{
+    float4 LIGHTcolor;
+};
+
 float4 PixelFragmentShader(PixelInputType pin) : SV_Target
 {
     float3 vecP = { 1, 0, 0 };
@@ -76,6 +81,6 @@ float4 PixelFragmentShader(PixelInputType pin) : SV_Target
 
     float3 Fcolor = (color + color1 + color2 + color3 + color4 + color5) / 6;
     float3 Gcolor = float3(0.1, 0.1, 0.1);
-    return float4(Fcolor.x, Fcolor.y / 2, Fcolor.z / 2, 2.0f) + float4(Gcolor, 1);
+    return float4(Fcolor,1)*LIGHTcolor + float4(Gcolor, 1);
 
 }

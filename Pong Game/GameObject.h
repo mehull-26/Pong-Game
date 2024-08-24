@@ -17,7 +17,7 @@ protected:
     struct VertexType
     {
         XMFLOAT3 position;
-        XMFLOAT3 color;
+        XMFLOAT4 color;
     };
 
     struct ModelType
@@ -56,6 +56,7 @@ protected:
     XMFLOAT3 m_scale;
     XMFLOAT3 m_rotation;
     XMMATRIX m_worldMatrix;
+    XMFLOAT4 m_color;
 
     void UpdateWorldMatrix();
 	bool LoadModel(const char* modelFilename);
@@ -77,5 +78,7 @@ protected:
     int m_indexCount;
     int m_vertexCount;
 };
+
+
 
 #endif // !_GAMEOBJECT_H_

@@ -15,11 +15,11 @@ public:
     void Update(InputClass* m_Input, int Collision);
     void Shutdown() override;
     void SetVelocity(float x, float y, float z);
+    bool PLAY;
 
 private:
 	XMFLOAT3 m_speed;
     XMFLOAT3 m_direction;
-    bool PLAY;
 	void P1Lose();
 	void P2Lose();
 };

@@ -1,4 +1,5 @@
 #include "Paddle.h"
+#include <string>
 
 Paddle::Paddle(int ID)
 {
@@ -50,6 +51,7 @@ void Paddle::Update(InputClass* m_Input)
 {
 	XMFLOAT3 static pos;
 	pos = m_collider->GetPosition();
+	
 	switch (m_ID)
 	{
 	case 1:
@@ -57,13 +59,13 @@ void Paddle::Update(InputClass* m_Input)
 		{
 			if (m_Input->IsKeyDown('A'))
 			{
-				m_position.x -= 0.2f;
-				pos.x -= 0.2f;
+				m_position.x -= 0.1f * sensitivity0;
+				pos.x -= 0.1f * sensitivity0;
 			}
 			if (m_Input->IsKeyDown('D'))
 			{
-				m_position.x += 0.2f;
-				pos.x += 0.2f;
+				m_position.x += 0.1f * sensitivity0;
+				pos.x += 0.1f * sensitivity0;
 			}
 		}
 		else
@@ -78,13 +80,13 @@ void Paddle::Update(InputClass* m_Input)
 		{
 			if (m_Input->IsKeyDown(37))
 			{
-				m_position.x -= 0.2f;
-				pos.x -= 0.2f;
+				m_position.x -= 0.1f * sensitivity1;
+				pos.x -= 0.1f * sensitivity1;
 			}
 			if (m_Input->IsKeyDown(39))
 			{
-				m_position.x += 0.2f;
-				pos.x += 0.2f;
+				m_position.x += 0.1f * sensitivity1;
+				pos.x += 0.1f * sensitivity1;
 			}
 		}
 		else
@@ -104,4 +106,24 @@ void Paddle::Update(InputClass* m_Input)
 void Paddle::Shutdown()
 {
 	ShutdownBuffers();
+}
+
+void Paddle::IncSensitivity(float s, int ID)
+{
+	OutputDebugString(L"ID: ");
+	OutputDebugStringA(const_cast<char*>(std::to_string(ID).c_str()));
+	OutputDebugStringA(" senstivity; ");
+	if (ID == 0)
+	{
+		sensitivity0 += s;
+		OutputDebugStringA(const_cast<char*>(std::to_string(sensitivity0).c_str()));
+	}
+	else if (ID == 1 && sensitivity1 > 0.08)
+	{
+		sensitivity1 += s;
+		OutputDebugStringA(const_cast<char*>(std::to_string(sensitivity1).c_str()));
+	}
+	sensitivity0 = sensitivity0 < 0.1 ? 0.1 : sensitivity0;
+	sensitivity1 = sensitivity1 < 0.1 ? 0.1 : sensitivity1;
+	OutputDebugStringA("\n");
 }

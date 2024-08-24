@@ -1,6 +1,7 @@
 // GameObject.cpp
 #include "GameObject.h"
 
+
 GameObject::GameObject()
 {
 	m_position = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -87,7 +88,7 @@ bool GameObject::InitializeBuffers(ID3D11Device* device, ID3D11DeviceContext* de
 	for (int i = 0; i < m_vertexCount; i++)
 	{
 		vertices[i].position = XMFLOAT3(m_model[i].x, m_model[i].y, m_model[i].z);
-		vertices[i].color = XMFLOAT3(0,0,1);
+		vertices[i].color = m_color;
 		indices[i] = i;
 	}
 
@@ -138,11 +139,7 @@ bool GameObject::InitializeBuffers(ID3D11Device* device, ID3D11DeviceContext* de
 	delete[] indices;
 	indices = 0;
 
-	result = InitializeLTCs(device, deviceContext);
-	if (!result)
-	{
-		return false;
-	}
+
 
 	return true;
 }

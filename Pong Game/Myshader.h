@@ -31,6 +31,11 @@ private:
 		float padding;
 	};
 
+	struct LightBufferType
+	{
+		XMFLOAT4 LightColor;
+	};
+
 public:
 	MyShader();
 	MyShader(const MyShader&);
@@ -40,6 +45,7 @@ public:
 	void Shutdown();
 	bool Render(ID3D11DeviceContext*, int, XMMATRIX, XMMATRIX, XMMATRIX,float, float, XMFLOAT3);
 	bool SetShaderParameters(ID3D11DeviceContext*, XMMATRIX, XMMATRIX, XMMATRIX, float, float, XMFLOAT3);
+	XMFLOAT4 m_lightColor;
 
 private:
 	bool InitializeShader(ID3D11Device*, HWND, WCHAR*, WCHAR*);
@@ -54,6 +60,8 @@ private:
 	ID3D11InputLayout* m_layout;
 	ID3D11Buffer* m_matrixBuffer;
 	ID3D11Buffer* m_paddleBuffer;
+	ID3D11Buffer* m_lightBuffer;
+
 
 };
 

@@ -95,6 +95,24 @@ void Scene1::Update(float deltaTime, InputClass* m_Input)
 	static double accumulator = 0;
 	static double prevTime = GetTime();
 
+	if (m_Input->IsKeyPressed('W'))
+	{
+		m_paddle->IncSensitivity(0.1f, 0);
+	}
+	if (m_Input->IsKeyPressed('S'))
+	{
+		m_paddle->IncSensitivity(-0.1f, 0);
+	}
+	if (m_Input->IsKeyPressed(38))
+	{
+		m_paddle1->IncSensitivity(0.1f, 1);
+	}
+	if (m_Input->IsKeyPressed(40))
+	{
+		m_paddle1->IncSensitivity(-0.1f, 1);
+	}
+
+
 	if ( m_Input->IsKeyPressed(32))
 	{
 		count++;
@@ -116,7 +134,7 @@ void Scene1::Update(float deltaTime, InputClass* m_Input)
 			m_paddle->Update(m_Input);
 			m_paddle1->Update(m_Input);
 			m_ball->Update(m_Input, collision);
-			m_ground->Update(m_Input);
+			m_ground->Update(m_Input, m_ball->PLAY);
 
 	}
 	prevTime = GetTime();

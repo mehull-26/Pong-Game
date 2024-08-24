@@ -16,7 +16,6 @@ void GetRandomDirection(XMFLOAT3& direction)
 
 Ball::Ball()
 {
-
 }
 
 Ball::~Ball()
@@ -31,7 +30,7 @@ bool Ball::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 
 	m_collider = new Collider();
 	m_speed = { 0.0f, 0.0f, 0.0f };
-	m_direction = { 1.0f, 0.0f, 1.0f };
+	m_direction = { 1.0f, 0.0f, 0.0f };
 
 	strcpy_s(modelFilename, "data/Ball.txt");
 	result = LoadModel(modelFilename);
@@ -71,6 +70,7 @@ void Ball::Update(InputClass* m_Input, int Collision)
 	static double accumulator = 0;
 	static double prevTime = GetTime();
 	accumulator += GetTime() - prevTime;
+
 
 	if (m_position.z < -100)
 	{

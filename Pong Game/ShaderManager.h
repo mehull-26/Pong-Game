@@ -5,6 +5,7 @@
 #include "colorshader.h"
 #include "Myshader.h"
 
+
 class ShaderManagerClass
 {
 public:
@@ -15,7 +16,7 @@ public:
     bool Initialize(ID3D11Device*, HWND);
     void Shutdown();
     bool RenderColorShader(ID3D11DeviceContext*, int, XMMATRIX, XMMATRIX, XMMATRIX);
-    bool RenderMyShader(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix,float paddleX, float paddleY, XMFLOAT3 ballXYZ);
+    bool RenderMyShader(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix,float paddleX, float paddleY, XMFLOAT3 ballXYZ, XMFLOAT4);
 
 private:
     ColorShaderClass* m_ColorShader;
