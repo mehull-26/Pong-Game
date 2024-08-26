@@ -1,9 +1,7 @@
 # 2 Player Pong Game
-A 2 player 3D pong game
 
 
-
-![image](https://github.com/user-attachments/assets/35bc8b10-81ea-46ff-b2fb-7874298250d1)
+![image](https://github.com/user-attachments/assets/3bfd8a2d-eb34-4d72-9a73-7260809fba45)
 
 
 
@@ -18,11 +16,13 @@ Release Build in 'Pong Game\\#Game Release Build' folder.
 - Run visual studio solution, and build the solution.
 - Incase of LINKER errors, try cleaning and rebuilding the solution
 - If errors still persist, inform me at mehulsingh.2605@gmail.com
-
+- To get a non full screen build, set FULLSCREEN variable in "gameclass.h" as false.
 
 ## CONTROLS
-- Arrow keys and WASD for Paddle Control.
+- A/D, left/right arrow keys for paddle movement
+- W/S, up/down arrow keys for sensitivty control.
 - Press space to Pause game.
 - Press 'P' to start game.
 
+  
 #### NOTE : The game's UI is still in progress and hasn't been integrated yet. Also various UX features including changing of light colors, power UPS are yet to be included. LTC lightning model for more realistic specular lightning also in development.
