@@ -55,20 +55,20 @@ void Ground::Update(InputClass* m_Input, bool PLAY)
 {
 	if (!PLAY)
 	{
-		static float accumulator = 0;
-		static float PrevTime = GetTimeG();
+		static double accumulator = 0;
+		static double PrevTime = GetTimeG();
 		accumulator += GetTimeG() - PrevTime;
-		if (accumulator < 0.25)
+		if (accumulator < 0.5)
 		{
-			m_color = XMFLOAT4(1.0f, 0.2f, 0.2f, 1.0f);
+			m_color = XMFLOAT4(1.0f, 0.3f, 0.3f, 1.0f);
 		}
-		else if (accumulator > 0.5)
+		else if (accumulator >= 0.8)
 		{
 			accumulator = 0;
 		}
-		else if (accumulator > 0.25)
+		else if (accumulator >= 0.5)
 		{
-			m_color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			m_color = XMFLOAT4(1.0f, 1.0f, 1.2f, 1.0f);
 		}
 		PrevTime = GetTimeG();
 	}
