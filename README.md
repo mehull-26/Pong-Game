@@ -13,7 +13,6 @@
 
 - Run visual studio solution, and build the solution.
 - Incase of LINKER errors, try cleaning and rebuilding the solution
-- If errors still persist, inform me at mehulsingh.2605@gmail.com
 - To get a non full screen build, set FULLSCREEN variable in "gameclass.h" as false.
 
 ## CONTROLS
