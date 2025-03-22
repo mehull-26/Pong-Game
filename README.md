@@ -7,8 +7,6 @@
 
 #### _RECOMMENDED : To run application on a GPU. CPU rendering might cause sloppy frames at higher resolutions._
 
-Release Build in 'Pong Game\\#Game Release Build' folder. 
-
 
 ## How to Build
 (ENSURE THAT YOU HAVE WINDOWS SDK INSTALLED ON YOUR DESKTOP)
